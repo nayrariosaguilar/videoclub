@@ -44,5 +44,20 @@ class videoclub_film_category(models.Model):
         
     description = fields.Text("Description", help="Description of the category")
 
-    parent_id = fields.Many2one('videoclub.film.category', string="Parent Category", help="Name of the parent category", required=False, index=True, ondelete='cascade')    
-    
+    parent_id = fields.Many2one('videoclub.film.category', string="Parent Category", help="Name of the parent category", required=False, index=True, ondelete='cascade')
+
+#Taula amb els directors
+class videoclub_director(models.Model):
+    """ director or directors of the films"""
+
+    _name = 'videoclub.director'
+    _description = "Director of the films"
+
+    name = fields.Char(string="Complete name of the director", size=150, required=True, help='Complete name of the director')
+    #Cuento que puede haber mas de un director por pelicula
+    film_id = fields.Many2many('videoclub.film', string='Film', help="Film produced by the director")
+    #Cannot be negative
+    years_of_experience = fields.Integer(string="Director years of work experience", digits=2, help="Years of experience")
+    studies = fields.Selection([('Autodidacta', '1'), ('Formación Profesional de Cine', '2'), ('Grado Universitario', '3'), ('Máster','4'),('Licenciatura','5')],
+                             string="Level of studie of the director", help="Studies of the director", default='Grado Universitario')
+    nationality = fields.Many2one('res.country', string="Nationality of the director", help="Nationality of the director")
