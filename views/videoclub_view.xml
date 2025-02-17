@@ -7,8 +7,7 @@
     Els ordenem pel sequence i li indiquem que el parent es el id del menú al que volem fer referència
     -->
  
-	<menuitem name="Films Categories" id="menu_videoclub_film_category" sequence="50" parent="menu_videoclub"/>
-     <menuitem name="Directors" id="menu_videoclub_director" parent="menu_videoclub" action="action_videoclub_director" sequence="51"/>
+	<menuitem name="Films Categories" id="menu_videoclub_film_category" sequence="50" parent="menu_videoclub" action="action_videoclub_director"/>
 
 <!-- Els de directors i films estan pendents de desenvolupar. -->
 	<menuitem name="Directors" id="menu_videoclub_director" sequence="51" parent="menu_videoclub"/> 
@@ -136,10 +135,10 @@
 
     <!-- Director Action -->
     <record model="ir.actions.act_window" id="action_videoclub_director">
-        <field name="name">Directors</field>
-        <field name="res_model">videoclub.director</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_videoclub_director_tree"/>
-        <field name="search_view_id" ref="view_videoclub_director_search"/>
-    </record>
+    <field name="name">Directors</field>
+    <field name="res_model">videoclub.director</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="view_videoclub_director_tree"/>
+    <field name="search_view_id" ref="view_videoclub_director_search"/>
+</record>
 </odoo>
