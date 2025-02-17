@@ -7,7 +7,8 @@
     Els ordenem pel sequence i li indiquem que el parent es el id del menú al que volem fer referència
     -->
  
-	<menuitem name="Films Categories" id="menu_videoclub_film_category" sequence="50" parent="menu_videoclub"/>  
+	<menuitem name="Films Categories" id="menu_videoclub_film_category" sequence="50" parent="menu_videoclub"/>
+     <menuitem name="Directors" id="menu_videoclub_director" parent="menu_videoclub" action="action_videoclub_director" sequence="51"/>
 
 <!-- Els de directors i films estan pendents de desenvolupar. -->
 	<menuitem name="Directors" id="menu_videoclub_director" sequence="51" parent="menu_videoclub"/> 
@@ -86,5 +87,59 @@
             </field>
         </record>
     <menuitem name="Search Categories" parent="menu_videoclub_film_category" id="menu_videoclub_film_category_search" action="action_videoclub_film_category_search" />
+     <record model="ir.ui.view" id="view_videoclub_director_form">
+        <field name="name">videoclub.director.form</field>
+        <field name="model">videoclub.director</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Director">
+                <group>
+                    <field name="name"/>
+                    <field name="film_id"/>
+                    <field name="years_of_experience"/>
+                    <field name="studies"/>
+                    <field name="nationality"/>
+                </group>
+            </form>
+        </field>
+    </record>
 
+    <!-- Director Tree View -->
+    <record model="ir.ui.view" id="view_videoclub_director_tree">
+        <field name="name">videoclub.director.tree</field>
+        <field name="model">videoclub.director</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Director">
+                <field name="name"/>
+                <field name="years_of_experience"/>
+                <field name="studies"/>
+                <field name="nationality"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Director Search View -->
+    <record model="ir.ui.view" id="view_videoclub_director_search">
+        <field name="name">videoclub.director.search</field>
+        <field name="model">videoclub.director</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search Directors">
+                <field name="name"/>
+                <field name="years_of_experience"/>
+                <field name="studies"/>
+                <field name="nationality"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Director Action -->
+    <record model="ir.actions.act_window" id="action_videoclub_director">
+        <field name="name">Directors</field>
+        <field name="res_model">videoclub.director</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_videoclub_director_tree"/>
+        <field name="search_view_id" ref="view_videoclub_director_search"/>
+    </record>
 </odoo>
