@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
-
        
 #Taula amb els films  
 class videoclub_film(models.Model):
@@ -36,15 +34,14 @@ class videoclub_film_category(models.Model):
     _name = 'videoclub.film.category'
     _description = "Films categories"
     _parent_name = "parent_id"
-
     name = fields.Char(string="Category", size=150, help="Name of the category", required=True)
     complete_name = fields.Char(
         'Complete Name', compute='_compute_complete_name',
         store=True)
         
     description = fields.Text("Description", help="Description of the category")
-
     parent_id = fields.Many2one('videoclub.film.category', string="Parent Category", help="Name of the parent category", required=False, index=True, ondelete='cascade')
+
 
 #Taula amb els directors
 class videoclub_director(models.Model):
@@ -52,7 +49,6 @@ class videoclub_director(models.Model):
 
     _name = 'videoclub.director'
     _description = "Director of the films"
-
     name = fields.Char(string="Complete name of the director", size=150, required=True, help='Complete name of the director')
     #Cuento que puede haber mas de un director por pelicula
     film_id = fields.Many2many('videoclub.film', string='Film', help="Film produced by the director")
@@ -60,4 +56,17 @@ class videoclub_director(models.Model):
     years_of_experience = fields.Integer(string="Director years of work experience", digits=2, help="Years of experience")
     studies = fields.Selection([('Autodidacta', '1'), ('Formación Profesional de Cine', '2'), ('Grado Universitario', '3'), ('Máster','4'),('Licenciatura','5')],
                              string="Level of studie of the director", help="Studies of the director", default='Grado Universitario')
+    nationality = fields.Many2one('res.country', string="Nationality of the director", help="Nationality of the director")
+
+#Taula amb els actors
+class videoclub_actor(models.Model):
+    """Actors of the films"""
+
+    _name = 'videoclub.actor'
+    _description = "Actor of the films"
+    name = fields.Char(string="actor name", size=50, required=True, help='Actor entire name')
+    film_id = fields.Many2many('videoclub.film', string='Film', help="Film acted by the actor")
+    years_of_experience = fields.Integer(string="Actor years of work experience", digits=2, help="Years of experience")
+    studies = fields.Selection([('Autodidacta', '1'), ('Formación Profesional de Cine', '2'), ('Grado Universitario', '3'), ('Máster','4'),('Licenciatura','5')],
+                             string="Level of studie of the actor", help="Studies of the actor", default='Grado Universitario')
     nationality = fields.Many2one('res.country', string="Nationality of the director", help="Nationality of the director")

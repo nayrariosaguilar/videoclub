@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_videoclub_film_admin,Accés d'administració a Films de Videoclub,model_videoclub_film_category,base.group_user,1,1,1,1
+access_videoclub_film_category_admin,Accés d'administració a Films de Videoclub,model_videoclub_film_category,base.group_user,1,1,1,1
+access_videoclub_director_admin,Accés d'administració a Films de Videoclub,model_videoclub_director,base.group_user,1,1,1,1
+access_videoclub_film_admin,Accés d'administració a Films de Videoclub,model_videoclub_film,base.group_user,1,1,1,1
+access_videoclub_actor_admin,Accés d'administració a Films de Videoclub,model_videoclub_actor,base.group_user,1,1,1,1
