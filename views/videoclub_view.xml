@@ -1,115 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<!-- Top menu item -->  
-    <!-- Crea el menu -->
-	<menuitem name="Videoclub" id="menu_videoclub" sequence="49" web_icon="videoclub,static/description/videoclub.png"/> <!-- Este menuitem apareixerà dalt, serà el nom del nostre mòdul. El valor de la seqüència farà que s'ordene davant o darrere (més a la esquerra o a la dreta) dels altres noms de móduls. -->
-    <!-- Opcions de menú que apareixeran al costat dret, quan polsem el menú de dalt 
-    Els ordenem pel sequence i li indiquem que el parent es el id del menú al que volem fer referència
-    -->
- 
-	<menuitem name="Films Categories" id="menu_videoclub_film_category" sequence="50" parent="menu_videoclub" action="action_videoclub_director"/>
+    <!-- Menú principal -->
+    <menuitem name="Videoclub" id="menu_videoclub" sequence="49"/>
 
-<!-- Els de directors i films estan pendents de desenvolupar. -->
-	<menuitem name="Directors" id="menu_videoclub_director" sequence="51" parent="menu_videoclub"/> 
-	<menuitem name="Films" id="menu_videoclub_film" sequence="52" parent="menu_videoclub"/>  
- 
-	<!--Category management-->   
-    
-    <!--New Category--> 
-    <!-- Aquí creem la vista que volem mostrar -->
-     <record model="ir.ui.view" id="view_videoclub_film_category_form"> <!-- Model vista - el id tindrà view_nombreModulo_nombreTabla_form-->
-        <field name="name">videoclub.film.category.form</field> <!-- nom que posem al model. Serà modul.nomTaula.form -->
-        <field name="model">videoclub.film.category</field> <!-- Nom de la taula a la que fem referencia (recordeu que sempre els noms de les taules porten el nom del modul) -->
-        <field name="type">form</field> <!-- Tipus formulari -->
-        <field name="arch" type="xml"> <!-- Tipus xml -->
-            <form string="videoclub_film_category"> <!-- nom del formulari -> nom de la taula -->
-                <!-- Camps que volem mostrar (han de tenir el mateix nom que a la taula)-->
-                <label for="name" string="Name: "/>
-                <field name="name"/>
-                <label for="parent_id" string="Parent category: "/>
-                <field name="parent_id"/>
-                <label for="description" string="Description of the category: "/>
-				<field name="description"/>
+    <!-- *********************** -->
+    <!-- ** VISTAS PARA FILMS ** -->
+    <!-- *********************** -->
+
+    <!-- Vista formulario para Films -->
+    <record model="ir.ui.view" id="view_videoclub_film_form">
+        <field name="name">videoclub.film.form</field>
+        <field name="model">videoclub.film</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id"/>
+                        <field name="description"/>
+                        <field name="hours"/>
+                        <field name="product_id"/>
+                        <field name="client_id"/>
+                        <field name="state"/>
+                        <field name="tipus"/>
+                        <field name="reserved"/>
+                        <field name="reservation_date"/>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
-    <!-- Aquí creem l'acció que volem que s'execute (al següent apartat indicarem on volem que s'aplique aquesta acció) -->
-    <record model="ir.actions.act_window" id="action_videoclub_film_category_form"><!-- Model activar una finestra - el id tindrà action_nombreModulo_nombreTabla_form-->
-        <field name="name">action.videoclub.film.category.form</field> <!-- nom que posem al model. Será action.modulo.nombreTabla.form -->
-        <field name="res_model">videoclub.film.category</field> <!-- Nom de la taula a la que fem referència (recordeu que sempre els noms de les taules porten el nom del modul) -->
-        <field name="view_mode">form</field> <!-- Vista formulari -->
-        <field name="view_id" ref="view_videoclub_film_category_form"/> <!-- Aquesta acció mostrarà la vista que li indiquem a ref -->
-    </record>
-    <!-- Aquesta última part unim l'acció que hem creat amb la opció del mòdul que volem que l'utilitze. 
-    Crea una opció de menú que es diu new categories, on el seu parent és el menú de film category, li indica un identificador i per últim l'acció a la que fa referència que és la que hem definit dalt.
-    -->
-    <menuitem name="New Categories" parent="menu_videoclub_film_category" id="menu_videoclub_film_category_form" action="action_videoclub_film_category_form" />
-    
 
-    <!-- Aquí anem a crear un altre tipus de vista, per tant en principi la definició serà igual excepte el que es comentarà mes avall -->
-         <!--Tree Category--> 
-        <record model="ir.ui.view" id="view_videoclub_film_category_tree"> <!-- Posarem tree en compte de form -->
-            <field name="name">videoclub.film.category.tree</field> <!-- Aquí també posarem form -->
-            <field name="model">videoclub.film.category</field>
-            <field name="arch" type="xml">
-                <tree string="Category Tree"> <!-- nom del arbre -->
-					 <field name="name"/>
-					<field name="parent_id"/>
-					<field name="description"/>
-                </tree>
-            </field>
-        </record>
-        
-    <!--Search Category--> 
-    <!-- Aquí creem una nova vista que no tindra camps com les d'abans, en el action li direm quines vistes volem que es puguen mostra, a aquesta vista la cridarem amb l'acció que tenim avall -->
-    <record id="view_videoclub_film_category_search" model="ir.ui.view">
-            <field name='name'>videoclub.film.category.search</field>
-            <field name='model'>videoclub.film.category</field>
-            <field name='arch' type='xml'>
-                <search string="Film search">
-                </search>
-            </field>
+    <!-- Vista árbol para Films -->
+    <record model="ir.ui.view" id="view_videoclub_film_tree">
+        <field name="name">videoclub.film.tree</field>
+        <field name="model">videoclub.film</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="state"/>
+                <field name="reserved"/>
+                <field name="reservation_date"/>
+            </tree>
+        </field>
     </record>
-    <!-- Aquest es l'action que crida a la vista que tenim dalt, si us fixeu al camp view_mode, podem veure que tenim "tree,form", això vol dir, que podrem veure els dos tipus de vista del model que tenim deifinit a la línia de dalt (res_model = nom de la taula). -->
-        <record model="ir.actions.act_window" id="action_videoclub_film_category_search">
-            <field name="name">Searching categories</field>
-            <field name="res_model">videoclub.film.category</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="view_videoclub_film_category_search"/>
-            <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click to create a category. 
-            </p>
-            <p>
-                Each film must be classified according to a category.
-            </p>
-            </field>
-        </record>
-    <menuitem name="Search Categories" parent="menu_videoclub_film_category" id="menu_videoclub_film_category_search" action="action_videoclub_film_category_search" />
-     <record model="ir.ui.view" id="view_videoclub_director_form">
+
+    <!-- Vista búsqueda para Films -->
+    <record model="ir.ui.view" id="view_videoclub_film_search">
+        <field name="name">videoclub.film.search</field>
+        <field name="model">videoclub.film</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para Films -->
+    <record model="ir.actions.act_window" id="action_videoclub_film">
+        <field name="name">Films</field>
+        <field name="res_model">videoclub.film</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_videoclub_film_search"/>
+    </record>
+
+    <!-- Menú Films -->
+    <menuitem name="Films" id="menu_videoclub_film" parent="menu_videoclub" sequence="52" action="action_videoclub_film"/>
+
+    <!-- *************************** -->
+    <!-- ** VISTAS PARA DIRECTORS ** -->
+    <!-- *************************** -->
+
+    <!-- Vista formulario para Directors -->
+    <record model="ir.ui.view" id="view_videoclub_director_form">
         <field name="name">videoclub.director.form</field>
         <field name="model">videoclub.director</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
-            <form string="Director">
-                <group>
-                    <field name="name"/>
-                    <field name="film_id"/>
-                    <field name="years_of_experience"/>
-                    <field name="studies"/>
-                    <field name="nationality"/>
-                </group>
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="film_id" widget="many2many_tags"/>
+                        <field name="years_of_experience"/>
+                        <field name="studies"/>
+                        <field name="nationality"/>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Director Tree View -->
+    <!-- Vista árbol para Directors -->
     <record model="ir.ui.view" id="view_videoclub_director_tree">
         <field name="name">videoclub.director.tree</field>
         <field name="model">videoclub.director</field>
-        <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Director">
+            <tree>
                 <field name="name"/>
                 <field name="years_of_experience"/>
                 <field name="studies"/>
@@ -118,27 +107,87 @@
         </field>
     </record>
 
-    <!-- Director Search View -->
+    <!-- Vista búsqueda para Directors -->
     <record model="ir.ui.view" id="view_videoclub_director_search">
         <field name="name">videoclub.director.search</field>
         <field name="model">videoclub.director</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
-            <search string="Search Directors">
+            <search>
                 <field name="name"/>
-                <field name="years_of_experience"/>
-                <field name="studies"/>
                 <field name="nationality"/>
             </search>
         </field>
     </record>
 
-    <!-- Director Action -->
+    <!-- Acción para Directors -->
     <record model="ir.actions.act_window" id="action_videoclub_director">
-    <field name="name">Directors</field>
-    <field name="res_model">videoclub.director</field>
-    <field name="view_mode">tree,form</field>
-    <field name="view_id" ref="view_videoclub_director_tree"/>
-    <field name="search_view_id" ref="view_videoclub_director_search"/>
-</record>
+        <field name="name">Directors</field>
+        <field name="res_model">videoclub.director</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_videoclub_director_search"/>
+    </record>
+
+    <!-- Menú Directors -->
+    <menuitem name="Directors" id="menu_videoclub_director" parent="menu_videoclub" sequence="51" action="action_videoclub_director"/>
+
+    <!-- ************************ -->
+    <!-- ** VISTAS PARA ACTORS ** -->
+    <!-- ************************ -->
+
+    <!-- Vista formulario para Actors -->
+    <record model="ir.ui.view" id="view_videoclub_actor_form">
+        <field name="name">videoclub.actor.form</field>
+        <field name="model">videoclub.actor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="film_id" widget="many2many_tags"/>
+                        <field name="years_of_experience"/>
+                        <field name="studies"/>
+                        <field name="nationality"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista árbol para Actors -->
+    <record model="ir.ui.view" id="view_videoclub_actor_tree">
+        <field name="name">videoclub.actor.tree</field>
+        <field name="model">videoclub.actor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="years_of_experience"/>
+                <field name="studies"/>
+                <field name="nationality"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista búsqueda para Actors -->
+    <record model="ir.ui.view" id="view_videoclub_actor_search">
+        <field name="name">videoclub.actor.search</field>
+        <field name="model">videoclub.actor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="nationality"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción para Actors -->
+    <record model="ir.actions.act_window" id="action_videoclub_actor">
+        <field name="name">Actors</field>
+        <field name="res_model">videoclub.actor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_videoclub_actor_search"/>
+    </record>
+
+    <!-- Menú Actors -->
+    <menuitem name="Actors" id="menu_videoclub_actor" parent="menu_videoclub" sequence="53" action="action_videoclub_actor"/>
+
 </odoo>
