@@ -14,18 +14,32 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <!-- Added a title since 'name' field was missing in original views -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="product_id" placeholder="Film Title" options="{'no_create': True}"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="category_id"/>
-                        <field name="description"/>
-                        <field name="hours"/>
-                        <field name="product_id"/>
-                        <field name="client_id"/>
-                        <field name="state"/>
-                        <field name="tipus"/>
-                        <field name="reserved"/>
-                        <field name="reservation_date"/>
+                        <group>
+                            <field name="category_id" options="{'no_create': True}"/>
+                            <field name="description" widget="text"/>
+                            <field name="hours"/>
+                            <field name="tipus"/>
+                        </group>
+                        <group>
+                            <field name="state" widget="statusbar"/>
+                            <field name="client_id" options="{'no_create': True}"/>
+                            <field name="reserved" widget="boolean_toggle"/>
+                            <field name="reservation_date"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Cast">
+                            <field name="actor_ids" widget="many2many_tags"/>
+                            <field name="director_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -37,10 +51,10 @@
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
+                <field name="product_id"/>  <!-- Using product_id as main identifier since name isn't in model -->
                 <field name="category_id"/>
-                <field name="state"/>
-                <field name="reserved"/>
+                <field name="state" widget="badge"/>
+                <field name="reserved" widget="boolean_toggle"/>
                 <field name="reservation_date"/>
             </tree>
         </field>
@@ -52,9 +66,11 @@
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="product_id"/>
                 <field name="category_id"/>
                 <field name="state"/>
+                <filter string="Reserved" name="reserved" domain="[('reserved', '=', True)]"/>
+                <filter string="Free" name="free" domain="[('state', '=', 'free')]"/>
             </search>
         </field>
     </record>
@@ -81,12 +97,20 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Director Name"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="film_id" widget="many2many_tags"/>
-                        <field name="years_of_experience"/>
-                        <field name="studies"/>
-                        <field name="nationality"/>
+                        <group>
+                            <field name="nationality" options="{'no_create': True}"/>
+                            <field name="studies"/>
+                            <field name="years_of_experience"/>
+                        </group>
+                        <group>
+                            <field name="film_id" widget="many2many_tags"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -115,6 +139,7 @@
             <search>
                 <field name="name"/>
                 <field name="nationality"/>
+                <filter string="Experienced" name="experienced" domain="[('years_of_experience', '>', 5)]"/>
             </search>
         </field>
     </record>
@@ -141,12 +166,20 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Actor Name"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="film_id" widget="many2many_tags"/>
-                        <field name="years_of_experience"/>
-                        <field name="studies"/>
-                        <field name="nationality"/>
+                        <group>
+                            <field name="nationality" options="{'no_create': True}"/>
+                            <field name="studies"/>
+                            <field name="years_of_experience"/>
+                        </group>
+                        <group>
+                            <field name="film_id" widget="many2many_tags"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -175,6 +208,7 @@
             <search>
                 <field name="name"/>
                 <field name="nationality"/>
+                <filter string="Experienced" name="experienced" domain="[('years_of_experience', '>', 5)]"/>
             </search>
         </field>
     </record>
@@ -190,4 +224,48 @@
     <!-- Menú Actors -->
     <menuitem name="Actors" id="menu_videoclub_actor" parent="menu_videoclub" sequence="53" action="action_videoclub_actor"/>
 
+    <!-- **************************** -->
+    <!-- ** VISTAS PARA CATEGORIAS ** -->
+    <!-- **************************** -->
+    <record model="ir.ui.view" id="view_videoclub_category_tree">
+        <field name="name">videoclub.film.category.tree</field>
+        <field name="model">videoclub.film.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="complete_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_videoclub_category_form">
+        <field name="name">videoclub.film.category.form</field>
+        <field name="model">videoclub.film.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Category Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="parent_id" options="{'no_create': True}"/>
+                        <field name="complete_name" readonly="1"/>
+                        <field name="description" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_videoclub_category">
+        <field name="name">Film Categories</field>
+        <field name="res_model">videoclub.film.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Categories" id="menu_videoclub_category" parent="menu_videoclub"
+             sequence="50" action="action_videoclub_category"/>
 </odoo>

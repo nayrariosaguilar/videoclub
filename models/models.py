@@ -30,6 +30,7 @@ class videoclub_film(models.Model):
     actor_ids = fields.Many2many('videoclub.actor', string='Actors', help="Actors in this film")
 
     director_ids = fields.Many2many('videoclub.director', string='Directors', help="Directors of this film")
+
 #Categories dels films    
 class videoclub_film_category(models.Model):
     """Films Categories"""
@@ -65,6 +66,7 @@ class videoclub_director(models.Model):
         for record in self:
             if record.years_of_experience <= 0:
                 raise ValidationError('The years_of_experience must be greater than zero!')
+
 #Taula amb els actors
 class videoclub_actor(models.Model):
     """Actors of the films"""
