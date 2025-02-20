@@ -72,7 +72,7 @@ class videoclub_actor(models.Model):
                              string="Level of studie of the actor", help="Studies of the actor", default='Grado Universitario')
     nationality = fields.Many2one('res.country', string="Nationality of the director", help="Nationality of the director")
 
-    class StickersCustomized(models.Model):
+
     @api.constrains('years_of_experience')
     def _check_width_positive(self):
         for record in self:
