@@ -9,15 +9,13 @@ class videoclub_film(models.Model):
     _name = 'videoclub.film'
     _description = "Film data"
     
-    name = fields.Char(string="Name of the film", size=150, required=True, help='Name of the film')
-    
     category_id = fields.Many2one('videoclub.film.category', string='Category', help="Category of the film")
     
     description = fields.Text(string="Description of the film", help="Description of the film")
 
     hours = fields.Float(string="Hours of the film", digits=(2, 2), help="Hours of the film")
 
-    product_id = fields.Many2one('product.product', string='Product', help="Product related to the film")
+    product_id = fields.Many2one('product.product', string='Product name', help="Product related to the film")
 
     client_id = fields.Many2one('res.partner', string='Client', help="Client who rents the film")
 
@@ -38,6 +36,7 @@ class videoclub_film_category(models.Model):
     _name = 'videoclub.film.category'
     _description = "Films categories"
     _parent_name = "parent_id"
+    name = fields.Char(string="Category", size=150, help="Name of the category", required=True)
     complete_name = fields.Char(
         'Complete Name', compute='_compute_complete_name',
         store=True)
