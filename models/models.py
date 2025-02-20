@@ -29,6 +29,9 @@ class videoclub_film(models.Model):
 
     reservation_date = fields.Date(string="Date when the film has been reserved", help="Date when the film has been reserved")
 
+    actor_ids = fields.Many2many('videoclub.actor', string='Actors', help="Actors in this film")
+
+    director_ids = fields.Many2many('videoclub.director', string='Directors', help="Directors of this film")
 #Categories dels films    
 class videoclub_film_category(models.Model):
     """Films Categories"""
@@ -59,6 +62,11 @@ class videoclub_director(models.Model):
                              string="Level of studie of the director", help="Studies of the director", default='Grado Universitario')
     nationality = fields.Many2one('res.country', string="Nationality of the director", help="Nationality of the director")
 
+    @api.constrains('years_of_experience')
+    def _check_experience_positive(self):
+        for record in self:
+            if record.years_of_experience <= 0:
+                raise ValidationError('The years_of_experience must be greater than zero!')
 #Taula amb els actors
 class videoclub_actor(models.Model):
     """Actors of the films"""
@@ -74,8 +82,7 @@ class videoclub_actor(models.Model):
 
 
     @api.constrains('years_of_experience')
-    def _check_width_positive(self):
+    def _check_experience_positive(self):
         for record in self:
             if record.years_of_experience <= 0:
                 raise ValidationError('The years_of_experience must be greater than zero!')
-
