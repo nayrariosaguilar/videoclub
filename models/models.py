@@ -38,7 +38,6 @@ class videoclub_film_category(models.Model):
     _name = 'videoclub.film.category'
     _description = "Films categories"
     _parent_name = "parent_id"
-    name = fields.Char(string="Category", size=150, help="Name of the category", required=True)
     complete_name = fields.Char(
         'Complete Name', compute='_compute_complete_name',
         store=True)
