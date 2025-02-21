@@ -15,16 +15,16 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="category_id"/>
-                        <field name="description"/>
-                        <field name="hours"/>
-                        <field name="product_id"/>
-                        <field name="client_id"/>
-                        <field name="state"/>
-                        <field name="tipus"/>
-                        <field name="reserved"/>
-                        <field name="reservation_date"/>
+                        <field name="name" string="Nombre de la película"/>
+                        <field name="category_id" string="Categoría"/>
+                        <field name="description" string="Descripción"/>
+                        <field name="hours" string="Duración (horas)"/>
+                        <field name="product_id" string="Producto"/>
+                        <field name="client_id" string="Cliente"/>
+                        <field name="state" string="Estado"/>
+                        <field name="tipus" string="Tipo"/>
+                        <field name="reserved" string="Reservado"/>
+                        <field name="reservation_date" string="Fecha de reserva"/>
                     </group>
                 </sheet>
             </form>
@@ -37,11 +37,11 @@
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="category_id"/>
-                <field name="state"/>
-                <field name="reserved"/>
-                <field name="reservation_date"/>
+                <field name="name" string="Nombre"/>
+                <field name="category_id" string="Categoría"/>
+                <field name="state" string="Estado"/>
+                <field name="reserved" string="Reservado"/>
+                <field name="reservation_date" string="Fecha de reserva"/>
             </tree>
         </field>
     </record>
@@ -70,6 +70,51 @@
     <!-- Menú Films -->
     <menuitem name="Films" id="menu_videoclub_film" parent="menu_videoclub" sequence="52" action="action_videoclub_film"/>
 
+    <!-- ********************************* -->
+    <!-- ** VISTAS PARA CATEGORÍAS DE FILMS ** -->
+    <!-- ********************************* -->
+
+    <!-- Vista formulario para Categorías -->
+    <record model="ir.ui.view" id="view_videoclub_film_category_form">
+        <field name="name">videoclub.film.category.form</field>
+        <field name="model">videoclub.film.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Nombre de la categoría"/>
+                        <field name="complete_name" string="Nombre completo" readonly="1"/>
+                        <field name="parent_id" string="Categoría padre"/>
+                        <field name="description" string="Descripción"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista árbol para Categorías -->
+    <record model="ir.ui.view" id="view_videoclub_film_category_tree">
+        <field name="name">videoclub.film.category.tree</field>
+        <field name="model">videoclub.film.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Categoría"/>
+                <field name="complete_name" string="Nombre completo"/>
+                <field name="parent_id" string="Categoría padre"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Acción para Categorías -->
+    <record model="ir.actions.act_window" id="action_videoclub_film_category">
+        <field name="name">Film Categories</field>
+        <field name="res_model">videoclub.film.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menú Categorías -->
+    <menuitem name="Categories" id="menu_videoclub_film_category" parent="menu_videoclub" sequence="50" action="action_videoclub_film_category"/>
+
     <!-- *************************** -->
     <!-- ** VISTAS PARA DIRECTORS ** -->
     <!-- *************************** -->
@@ -82,11 +127,11 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="film_id" widget="many2many_tags"/>
-                        <field name="years_of_experience"/>
-                        <field name="studies"/>
-                        <field name="nationality"/>
+                        <field name="name" string="Nombre del director"/>
+                        <field name="film_id" widget="many2many_tags" string="Películas"/>
+                        <field name="years_of_experience" string="Años de experiencia"/>
+                        <field name="studies" string="Estudios"/>
+                        <field name="nationality" string="Nacionalidad"/>
                     </group>
                 </sheet>
             </form>
@@ -99,10 +144,10 @@
         <field name="model">videoclub.director</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="years_of_experience"/>
-                <field name="studies"/>
-                <field name="nationality"/>
+                <field name="name" string="Nombre"/>
+                <field name="years_of_experience" string="Años de experiencia"/>
+                <field name="studies" string="Estudios"/>
+                <field name="nationality" string="Nacionalidad"/>
             </tree>
         </field>
     </record>
@@ -142,11 +187,11 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="film_id" widget="many2many_tags"/>
-                        <field name="years_of_experience"/>
-                        <field name="studies"/>
-                        <field name="nationality"/>
+                        <field name="name" string="Nombre del actor"/>
+                        <field name="film_id" widget="many2many_tags" string="Películas"/>
+                        <field name="years_of_experience" string="Años de experiencia"/>
+                        <field name="studies" string="Estudios"/>
+                        <field name="nationality" string="Nacionalidad"/>
                     </group>
                 </sheet>
             </form>
@@ -159,10 +204,10 @@
         <field name="model">videoclub.actor</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="years_of_experience"/>
-                <field name="studies"/>
-                <field name="nationality"/>
+                <field name="name" string="Nombre"/>
+                <field name="years_of_experience" string="Años de experiencia"/>
+                <field name="studies" string="Estudios"/>
+                <field name="nationality" string="Nacionalidad"/>
             </tree>
         </field>
     </record>
