@@ -194,8 +194,6 @@
     </record>
 
     <!-- Elementos del menú -->
-    <menuitem name="Films" id="menu_videoclub_film"
-              parent="menu_videoclub" action="action_videoclub_film" sequence="10"/>
 
     <menuitem name="Categories" id="menu_videoclub_category"
               parent="menu_videoclub" action="action_videoclub_film_category" sequence="20"/>
