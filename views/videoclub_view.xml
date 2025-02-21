@@ -3,65 +3,83 @@
     <!-- Menú principal -->
     <menuitem name="Videoclub" id="menu_videoclub" sequence="10"/>
 
-    <!-- Vistas para Films -->
+    <!-- PELÍCULAS (FILMS) -->
     <record model="ir.ui.view" id="view_videoclub_film_form">
         <field name="name">videoclub.film.form</field>
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
-            <form string="Película">
+            <form string="Film">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="free,rented,notAvailable"/>
+                </header>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="category_id"/>
-                        <field name="description"/>
-                        <field name="hours"/>
-                        <field name="product_id"/>
-                        <field name="client_id"/>
-                        <field name="state"/>
-                        <field name="tipus"/>
-                        <field name="reserved"/>
-                        <field name="reservation_date"/>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="category_id"/>
+                            <field name="hours"/>
+                            <field name="tipus"/>
+                        </group>
+                        <group>
+                            <field name="client_id" attrs="{'required': [('state', '=', 'rented')]}"/>
+                            <field name="reserved"/>
+                            <field name="reservation_date" attrs="{'invisible': [('reserved', '=', False)]}"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Cast &amp; Crew">
+                            <group>
+                                <field name="actor_ids" widget="many2many_tags"/>
+                                <field name="director_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
+    <!-- Vista lista para películas -->
     <record model="ir.ui.view" id="view_videoclub_film_tree">
         <field name="name">videoclub.film.tree</field>
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
-            <tree string="Películas">
-                <field name="name"/>
+            <tree string="Films" decoration-success="state=='free'" decoration-warning="state=='rented'" decoration-danger="state=='notAvailable'">
+                <field name="product_id"/>
                 <field name="category_id"/>
+                <field name="hours"/>
                 <field name="state"/>
+                <field name="tipus"/>
                 <field name="reserved"/>
-                <field name="reservation_date"/>
+                <field name="client_id"/>
             </tree>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="action_videoclub_film">
-        <field name="name">Films</field>
-        <field name="res_model">videoclub.film</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem name="Films" id="menu_videoclub_film" parent="menu_videoclub" sequence="20" action="action_videoclub_film"/>
-
-    <!-- Vistas para Categorías -->
+    <!-- CATEGORÍAS -->
     <record model="ir.ui.view" id="view_videoclub_film_category_form">
         <field name="name">videoclub.film.category.form</field>
         <field name="model">videoclub.film.category</field>
         <field name="arch" type="xml">
-            <form string="Categoría">
+            <form string="Film Category">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="complete_name" readonly="1"/>
-                        <field name="parent_id"/>
-                        <field name="description"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="complete_name"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -71,23 +89,15 @@
         <field name="name">videoclub.film.category.tree</field>
         <field name="model">videoclub.film.category</field>
         <field name="arch" type="xml">
-            <tree string="Categorías">
-                <field name="name"/>
+            <tree string="Film Categories">
                 <field name="complete_name"/>
+                <field name="name"/>
                 <field name="parent_id"/>
             </tree>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="action_videoclub_film_category">
-        <field name="name">Categories</field>
-        <field name="res_model">videoclub.film.category</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem name="Categories" id="menu_videoclub_film_category" parent="menu_videoclub" sequence="10" action="action_videoclub_film_category"/>
-
-    <!-- Vistas para Directors -->
+    <!-- DIRECTORES -->
     <record model="ir.ui.view" id="view_videoclub_director_form">
         <field name="name">videoclub.director.form</field>
         <field name="model">videoclub.director</field>
@@ -95,11 +105,15 @@
             <form string="Director">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="film_id" widget="many2many_tags"/>
-                        <field name="years_of_experience"/>
-                        <field name="studies"/>
-                        <field name="nationality"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="years_of_experience"/>
+                            <field name="nationality"/>
+                        </group>
+                        <group>
+                            <field name="studies"/>
+                            <field name="film_id" widget="many2many_tags"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -110,7 +124,7 @@
         <field name="name">videoclub.director.tree</field>
         <field name="model">videoclub.director</field>
         <field name="arch" type="xml">
-            <tree string="Directores">
+            <tree string="Directors">
                 <field name="name"/>
                 <field name="years_of_experience"/>
                 <field name="studies"/>
@@ -119,15 +133,7 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="action_videoclub_director">
-        <field name="name">Directors</field>
-        <field name="res_model">videoclub.director</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem name="Directors" id="menu_videoclub_director" parent="menu_videoclub" sequence="30" action="action_videoclub_director"/>
-
-    <!-- Vistas para Actors -->
+    <!-- ACTORES -->
     <record model="ir.ui.view" id="view_videoclub_actor_form">
         <field name="name">videoclub.actor.form</field>
         <field name="model">videoclub.actor</field>
@@ -135,11 +141,15 @@
             <form string="Actor">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="film_id" widget="many2many_tags"/>
-                        <field name="years_of_experience"/>
-                        <field name="studies"/>
-                        <field name="nationality"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="years_of_experience"/>
+                            <field name="nationality"/>
+                        </group>
+                        <group>
+                            <field name="studies"/>
+                            <field name="film_id" widget="many2many_tags"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -150,7 +160,7 @@
         <field name="name">videoclub.actor.tree</field>
         <field name="model">videoclub.actor</field>
         <field name="arch" type="xml">
-            <tree string="Actores">
+            <tree string="Actors">
                 <field name="name"/>
                 <field name="years_of_experience"/>
                 <field name="studies"/>
@@ -159,11 +169,42 @@
         </field>
     </record>
 
+    <!-- Acciones de ventana -->
+    <record model="ir.actions.act_window" id="action_videoclub_film">
+        <field name="name">Films</field>
+        <field name="res_model">videoclub.film</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_videoclub_film_category">
+        <field name="name">Categories</field>
+        <field name="res_model">videoclub.film.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_videoclub_director">
+        <field name="name">Directors</field>
+        <field name="res_model">videoclub.director</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <record model="ir.actions.act_window" id="action_videoclub_actor">
         <field name="name">Actors</field>
         <field name="res_model">videoclub.actor</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Actors" id="menu_videoclub_actor" parent="menu_videoclub" sequence="40" action="action_videoclub_actor"/>
+    <!-- Elementos del menú -->
+    <menuitem name="Films" id="menu_videoclub_film"
+              parent="menu_videoclub" action="action_videoclub_film" sequence="10"/>
+
+    <menuitem name="Categories" id="menu_videoclub_category"
+              parent="menu_videoclub" action="action_videoclub_film_category" sequence="20"/>
+
+    <menuitem name="Directors" id="menu_videoclub_director"
+              parent="menu_videoclub" action="action_videoclub_director" sequence="30"/>
+
+    <menuitem name="Actors" id="menu_videoclub_actor"
+              parent="menu_videoclub" action="action_videoclub_actor" sequence="40"/>
+
 </odoo>
