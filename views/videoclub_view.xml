@@ -2,9 +2,6 @@
 <odoo>
     <!-- Menú principal -->
     <menuitem name="Videoclub" id="menu_videoclub" sequence="10"/>
-    <menuitem name="Director" id="menu_director" sequence="10"/>
-    <menuitem name="Categoria" id="menu_category" sequence="10"/>
-    <menuitem name="Actores" id="menu_actors" sequence="10"/>
 
     <!-- PELÍCULAS (FILMS) -->
     <record model="ir.ui.view" id="view_videoclub_film_form">
@@ -204,19 +201,19 @@
 
     <menuitem name="Categories"
               id="menu_videoclub_category"
-              parent="menu_category"
+              parent="menu_videoclub"
               action="action_videoclub_film_category"
               sequence="20"/>
 
     <menuitem name="Directors"
               id="menu_videoclub_director"
-              parent="menu_director"
+              parent="menu_videoclub"
               action="action_videoclub_director"
               sequence="30"/>
 
     <menuitem name="Actors"
               id="menu_videoclub_actor"
-              parent="menu_actor"
+              parent="menu_videoclub"
               action="action_videoclub_actor"
               sequence="40"/>
 
