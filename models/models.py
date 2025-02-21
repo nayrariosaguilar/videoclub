@@ -13,7 +13,7 @@ class videoclub_film(models.Model):
     
     description = fields.Text(string="Description of the film", help="Description of the film")
 
-    hours = fields.Float(string="Hours of the film", digits=(2, 2), help="Hours of the film")
+    hours = fields.Integer(string="Hours of the film", digits=(2, 2), help="Hours of the film")
 
     product_id = fields.Many2one('product.product', string='Product name', help="Product related to the film")
 
