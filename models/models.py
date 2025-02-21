@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-       
-#Taula amb els films  
+
+#Taula amb els films
+#Este campo tiene relaciones importantes con product_id donde crea un producto que simboliza la pelicula
+#Tiene una relacion con client_id que simboliza el cliente que alquila la pelicula (solamente cuando elige rented)
+#Tiene una relacion con actor_ids que simboliza los actores que actuan en la pelicula
+#Tiene una relacion con director_ids que simboliza los directores que dirigen la pelicula, puede ser mas de uno
+
 class videoclub_film(models.Model):
     """Films by videoclub"""   
     
@@ -13,7 +18,7 @@ class videoclub_film(models.Model):
     
     description = fields.Text(string="Description of the film", help="Description of the film")
 
-    hours = fields.Integer(string="Hours of the film in minutes", help="Hours of the film in minutes")
+    duration = fields.Integer(string="minutes of the film", help="minutes of the film")
 
     product_id = fields.Many2one('product.product', string='Product name', help="Product related to the film")
 
@@ -31,7 +36,8 @@ class videoclub_film(models.Model):
 
     director_ids = fields.Many2many('videoclub.director', string='Directors', help="Directors of this film")
 
-#Categories dels films    
+#Categories dels films
+#
 class videoclub_film_category(models.Model):
     """Films Categories"""
     _name = 'videoclub.film.category'

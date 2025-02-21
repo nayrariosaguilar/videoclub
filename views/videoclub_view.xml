@@ -4,6 +4,8 @@
     <menuitem name="Videoclub" id="menu_videoclub" sequence="10"/>
 
     <!-- PELÍCULAS (FILMS) -->
+
+    <!-- Vista formulario para películas -->
     <record model="ir.ui.view" id="view_videoclub_film_form">
         <field name="name">videoclub.film.form</field>
         <field name="model">videoclub.film</field>
@@ -12,9 +14,10 @@
                 <sheet>
                     <group>
                         <group>
+
                             <field name="product_id"/>
                             <field name="category_id"/>
-                            <field name="hours" widget="integer"/>
+                            <field name="duration" widget="integer"/>
                             <field name="tipus"/>
                             <field name="state"/>
                         </group>
@@ -48,7 +51,7 @@
             <tree string="Films">
                 <field name="product_id"/>
                 <field name="category_id"/>
-                <field name="hours"/>
+                <field name="duration" widget="integer"/>
                 <field name="state"/>
                 <field name="tipus"/>
                 <field name="reserved"/>
