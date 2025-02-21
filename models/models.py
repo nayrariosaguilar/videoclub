@@ -37,7 +37,8 @@ class videoclub_film(models.Model):
     director_ids = fields.Many2many('videoclub.director', string='Directors', help="Directors of this film")
 
 #Categories dels films
-#
+#Puede heredar una categoria superior
+#Tiene una descripcion de la categoria
 class videoclub_film_category(models.Model):
     """Films Categories"""
     _name = 'videoclub.film.category'
@@ -53,6 +54,9 @@ class videoclub_film_category(models.Model):
 
 
 #Taula amb els directors
+#Un director pot haber participat en més d'una
+#La nacionalidad la heredamos de res.country (un modulo de odoo)
+#Los años de experiencia no pueden ser negativos
 class videoclub_director(models.Model):
     """ director or directors of the films"""
 
@@ -74,6 +78,9 @@ class videoclub_director(models.Model):
                 raise ValidationError('The years_of_experience must be greater than zero!')
 
 #Taula amb els actors
+#Un actor pot haber participat en més d'una
+#La nacionalidad la heredamos de res.country (un modulo de odoo)
+#Los años de experiencia no pueden ser negativos
 class videoclub_actor(models.Model):
     """Actors of the films"""
 
