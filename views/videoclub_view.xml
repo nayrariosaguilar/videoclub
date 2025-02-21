@@ -9,9 +9,7 @@
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
             <form string="Film">
-                <header>
-                    <field name="state" widget="statusbar" statusbar_visible="free,rented,notAvailable"/>
-                </header>
+
                 <sheet>
                     <group>
                         <group>
@@ -19,6 +17,7 @@
                             <field name="category_id"/>
                             <field name="hours"/>
                             <field name="tipus"/>
+                            <field name="state"/>
                         </group>
                         <group>
                             <field name="client_id" attrs="{'required': [('state', '=', 'rented')]}"/>
@@ -47,7 +46,7 @@
         <field name="name">videoclub.film.tree</field>
         <field name="model">videoclub.film</field>
         <field name="arch" type="xml">
-            <tree string="Films" decoration-success="state=='free'" decoration-warning="state=='rented'" decoration-danger="state=='notAvailable'">
+            <tree string="Films" >
                 <field name="product_id"/>
                 <field name="category_id"/>
                 <field name="hours"/>
